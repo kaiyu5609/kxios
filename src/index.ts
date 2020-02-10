@@ -1,7 +1,7 @@
 import { KxiosRequestConfig } from './types'
 
 function kxios(config: KxiosRequestConfig) {
-    // TODO
+  // TODO
 }
 
 export default kxios
