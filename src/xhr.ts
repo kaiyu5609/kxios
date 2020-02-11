@@ -1,17 +1,43 @@
-import { KxiosRequestConfig } from './types'
+import { KxiosRequestConfig, KxiosPromise, KxiosResponse } from './types'
 
-export default function xhr(config: KxiosRequestConfig): void {
-  const { url, method = 'get', data = null, headers } = config
+export default function xhr(config: KxiosRequestConfig): KxiosPromise {
+  return new Promise(resolve => {
+    const { url, method = 'get', data = null, headers, responseType } = config
 
-  const request = new XMLHttpRequest()
+    const request = new XMLHttpRequest()
 
-  request.open(method.toUpperCase(), url, true)
+    /**
+     * 添加 `responseType`
+     */
 
-  /**
-   * 处理header TODO
-   * `request.setRequestHeader`
-   */
-  Object.keys(headers).forEach(name => {})
+    request.open(method.toUpperCase(), url, true)
 
-  request.send(data)
+    /**
+     * 监听 `onreadystatechange` 事件
+     */
+    request.onreadystatechange = function handleLoad() {
+      // TODO
+
+      const response: KxiosResponse = {
+        status: request.status,
+        statusText: request.statusText,
+        data: request.response,
+        headers,
+        config,
+        request
+      }
+
+      resolve(response)
+    }
+
+    /**
+     * 处理header TODO
+     * `request.setRequestHeader`
+     */
+    Object.keys(headers).forEach(name => {
+      // TODO
+    })
+
+    request.send(data)
+  })
 }

@@ -1,4 +1,4 @@
-import { KxiosRequestConfig } from './types'
+import { KxiosRequestConfig, KxiosPromise } from './types'
 import xhr from './xhr'
 import { bulidURL } from './helpers/url'
 import { transformRequest } from './helpers/data'
@@ -8,9 +8,9 @@ import { processHeaders } from './helpers/headers'
  * `kxios`
  * @param config
  */
-function kxios(config: KxiosRequestConfig): void {
+function kxios(config: KxiosRequestConfig): KxiosPromise {
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 /**
