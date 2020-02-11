@@ -1,7 +1,7 @@
-import { KxiosRequestConfig, KxiosPromise } from './types'
+import { KxiosRequestConfig, KxiosPromise, KxiosResponse } from './types'
 import xhr from './xhr'
 import { bulidURL } from './helpers/url'
-import { transformRequest } from './helpers/data'
+import { transformRequest, transfromResponse } from './helpers/data'
 import { processHeaders } from './helpers/headers'
 
 /**
@@ -10,7 +10,9 @@ import { processHeaders } from './helpers/headers'
  */
 function kxios(config: KxiosRequestConfig): KxiosPromise {
   processConfig(config)
-  return xhr(config)
+  return xhr(config).then(res => {
+    return transformResponseData(res)
+  })
 }
 
 /**
@@ -49,6 +51,15 @@ function transformRequestData(config: KxiosRequestConfig): any {
 function transformHeaders(config: KxiosRequestConfig): any {
   const { headers = {}, data } = config
   return processHeaders(headers, data)
+}
+
+/**
+ * 处理响应 `data`
+ * @param res
+ */
+function transformResponseData(res: KxiosResponse): KxiosResponse {
+  res.data = transfromResponse(res.data)
+  return res
 }
 
 export default kxios
