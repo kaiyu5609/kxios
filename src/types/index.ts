@@ -21,6 +21,7 @@ export interface KxiosRequestConfig {
   data?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface KxiosResponse {

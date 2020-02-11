@@ -2,13 +2,17 @@ import { KxiosRequestConfig, KxiosPromise, KxiosResponse } from './types'
 import { parseHeaders } from './helpers/headers'
 
 export default function xhr(config: KxiosRequestConfig): KxiosPromise {
-  return new Promise(resolve => {
-    const { url, method = 'get', data = null, headers, responseType } = config
+  return new Promise((resolve, reject) => {
+    const { url, method = 'get', data = null, headers, responseType, timeout } = config
 
     const request = new XMLHttpRequest()
 
     /**
      * 添加 `responseType`
+     */
+
+    /**
+     * 添加 `timeout`
      */
 
     request.open(method.toUpperCase(), url, true)
@@ -39,6 +43,20 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
       }
 
       resolve(response)
+    }
+
+    /**
+     * 错误处理
+     */
+    request.onerror = function handleError() {
+      reject(new Error('Networ Error'))
+    }
+
+    /**
+     * 处理超时
+     */
+    request.ontimeout = function handleTimeout() {
+      reject(new Error(`Timeout of ${timeout} ms exceeded`))
     }
 
     /**
