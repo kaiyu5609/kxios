@@ -1,5 +1,6 @@
 import { KxiosRequestConfig, KxiosPromise, KxiosResponse } from './types'
 import { parseHeaders } from './helpers/headers'
+import { createError } from './helpers/error'
 
 export default function xhr(config: KxiosRequestConfig): KxiosPromise {
   return new Promise((resolve, reject) => {
@@ -61,7 +62,15 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(new Error(`Request failed with status code ${response.status}`))
+        reject(
+          createError(
+            `Request failed with status code ${response.status}`,
+            config,
+            null,
+            request,
+            response
+          )
+        )
       }
     }
 
@@ -69,14 +78,14 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
      * 错误处理
      */
     request.onerror = function handleError() {
-      reject(new Error('Networ Error'))
+      reject(createError('Networ Error', config, null, request))
     }
 
     /**
      * 处理超时
      */
     request.ontimeout = function handleTimeout() {
-      reject(new Error(`Timeout of ${timeout} ms exceeded`))
+      reject(createError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request))
     }
 
     /**
