@@ -1,4 +1,5 @@
 import { KxiosRequestConfig, KxiosPromise, KxiosResponse } from './types'
+import { parseHeaders } from './helpers/headers'
 
 export default function xhr(config: KxiosRequestConfig): KxiosPromise {
   return new Promise(resolve => {
@@ -18,11 +19,21 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
     request.onreadystatechange = function handleLoad() {
       // TODO
 
+      /**
+       * 解析 `responseHeaders`
+       */
+      const responseHeaders = parseHeaders(request.getAllResponseHeaders())
+
+      /**
+       * 响应数据
+       */
+      const responseData = request.response
+
       const response: KxiosResponse = {
         status: request.status,
         statusText: request.statusText,
-        data: request.response,
-        headers,
+        data: responseData,
+        headers: responseHeaders,
         config,
         request
       }
