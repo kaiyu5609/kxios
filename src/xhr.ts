@@ -21,7 +21,16 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
      * 监听 `onreadystatechange` 事件
      */
     request.onreadystatechange = function handleLoad() {
-      // TODO
+      if (request.readyState !== 4) {
+        return
+      }
+
+      /**
+       * 当出现网络错误或者超时错误的时候，`status`的值都为0
+       */
+      if (request.status === 0) {
+        return
+      }
 
       /**
        * 解析 `responseHeaders`
@@ -42,7 +51,18 @@ export default function xhr(config: KxiosRequestConfig): KxiosPromise {
         request
       }
 
-      resolve(response)
+      handleResponse(response)
+    }
+
+    /**
+     * 处理非 `200` 状态码
+     */
+    function handleResponse(response: KxiosResponse): void {
+      if (response.status >= 200 && response.status < 300) {
+        resolve(response)
+      } else {
+        reject(new Error(`Request failed with status code ${response.status}`))
+      }
     }
 
     /**
