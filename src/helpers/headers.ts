@@ -15,24 +15,25 @@ export function processHeaders(headers: any, data: any): any {
 
 /**
  * 解析 `responseHeaders`
- * @param headers 
- * 
+ * @param headers
+ *
  * const headers = `
-    date: Fri, 05 Apr 2019 12:40:49 GMT
-    etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
-    connection: keep-alive
-    x-powered-by: Express
-    content-length: 13
-    content-type: application/json; charset=utf-8
-  `
-  const parsed = {
-    date: 'Fri, 05 Apr 2019 12:40:49 GMT',
-    etag: 'W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"',
-    connection: 'keep-alive',
-    'x-powered-by': 'Express',
-    'content-length': '13',
-    'content-type': 'application/json; charset=utf-8'
-  }
+ *    date: Fri, 05 Apr 2019 12:40:49 GMT
+ *    etag: W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"
+ *    connection: keep-alive
+ *    x-powered-by: Express
+ *    content-length: 13
+ *    content-type: application/json; charset=utf-8
+ *  `
+ *
+ *  const parsed = {
+ *    date: 'Fri, 05 Apr 2019 12:40:49 GMT',
+ *    etag: 'W/"d-Ssxx4FRxEutDLwo2+xkkxKc4y0k"',
+ *    connection: 'keep-alive',
+ *    'x-powered-by': 'Express',
+ *    'content-length': '13',
+ *    'content-type': 'application/json; charset=utf-8'
+ *  }
  */
 export function parseHeaders(headers: string): any {
   let parsed = Object.create(null)

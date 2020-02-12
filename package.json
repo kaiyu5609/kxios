@@ -5,14 +5,14 @@
   "keywords": [],
   "main": "dist/kxios.umd.js",
   "module": "dist/kxios.es5.js",
-  "typings": "dist/types/kxios.d.ts",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
   "author": "kaiyu5609 <1047935422@qq.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/kaiyu5609/kxios.git"
   },
   "license": "MIT",
   "engines": {
@@ -29,11 +29,13 @@
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "precommit": "lint-staged",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "prepub": "npm run lint && npm run build",
+    "pub": "sh release.sh"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
